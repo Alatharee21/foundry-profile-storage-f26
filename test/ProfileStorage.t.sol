@@ -3,6 +3,7 @@ pragma solidity >=0.8.13 <0.9.0;
 
 import {Test} from "forge-std/Test.sol";
 import {ProfileStorage} from "../src/ProfileStorage.sol";
+import {console} from "forge-std/console.sol";
 
 contract ProfileStorageTest is Test {
     ProfileStorage public profileStorage;
@@ -21,6 +22,14 @@ contract ProfileStorageTest is Test {
             address wallet,
             ProfileStorage.AccountStatus status
         ) = profileStorage.getProfile(msg.sender);
+
+        console.log("Username:", username);
+        console.log("Age:", age);
+        console.log("Creation Time:", creationTime);
+        console.log("Balance:", balance);
+        console.log("Wallet:", wallet);
+        console.log("Status:", uint256(status));
+
         assertEq(username, "Alice");
         assertEq(age, 25);
         assertEq(creationTime, block.timestamp);
