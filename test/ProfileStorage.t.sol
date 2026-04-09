@@ -11,7 +11,7 @@ contract ProfileStorageTest is Test {
         profileStorage = new ProfileStorage();
     }
 
-    function test_CreateProfile() public {
+    function test_CreateProfile() public payable {
         profileStorage.createProfile("Alice", 25);
         (
             string memory username,
@@ -26,18 +26,21 @@ contract ProfileStorageTest is Test {
         assertEq(creationTime, block.timestamp);
         assertEq(balance, msg.value);
         assertEq(wallet, msg.sender);
-        assertEq(status, ProfileStorage.AccountStatus.Active);
+        assertEq(uint256(status), uint256(ProfileStorage.AccountStatus.Active));
     }
 
-    function test_suspendAcct() public {
+    function test_suspendAcct() public payable {
         profileStorage.createProfile("Bob", 30);
         profileStorage.suspendAcct(address(0x123));
         (, , , , , ProfileStorage.AccountStatus status) = profileStorage
             .getProfile(address(0x123));
-        assertEq(status, ProfileStorage.AccountStatus.Inactive);
+        assertEq(
+            uint256(status),
+            uint256(ProfileStorage.AccountStatus.Inactive)
+        );
     }
 
-    function test_GetProfile() public {
+    function test_GetProfile() public payable {
         profileStorage.createProfile("Charlie", 28);
         (
             string memory username,
@@ -52,6 +55,6 @@ contract ProfileStorageTest is Test {
         assertEq(creationTime, block.timestamp);
         assertEq(balance, msg.value);
         assertEq(wallet, msg.sender);
-        assertEq(status, ProfileStorage.AccountStatus.Active);
+        assertEq(uint256(status), uint256(ProfileStorage.AccountStatus.Active));
     }
 }

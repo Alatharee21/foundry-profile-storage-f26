@@ -63,7 +63,7 @@ contract ProfileStorage {
     function createProfile(
         string memory _username,
         uint256 _age
-    ) public onlyUnregistered {
+    ) public payable onlyUnregistered {
         users[msg.sender] = User({
             username: _username,
             age: _age,
